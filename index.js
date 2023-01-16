@@ -26,6 +26,28 @@ async function run(){
             res.send(post)
            
         })
+        app.post('/addpost',async (req,res)=>{
+            const post = req.body;
+            const result = await postCollection.insertOne(post);
+            res.send(result);
+        })
+
+
+        app.delete('/deltePost', async (req, res) => {
+            const terget = req.query.id;
+            const query = { _id: ObjectId(terget) };
+            const result = await postCollection.deleteOne(query);
+            res.send(result);
+        })
+
+        app.get('/postDetails/:id',async(req,res)=>{
+            
+            const postId =  req.params.id;
+            const query = { _id: ObjectId(postId) };
+            const post = await postCollection.findOne(query);
+            res.send(post);
+            console.log(post);
+        })
 
 
     }
